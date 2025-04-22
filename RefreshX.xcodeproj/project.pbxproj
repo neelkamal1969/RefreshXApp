@@ -38,9 +38,33 @@
 		DB23BDF72DAE3DB0008FBA8B /* RefreshXUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RefreshXUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D000B2B92DB849C900461B44 /* Exceptions for "RefreshX" folder in "RefreshX" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Other/syncing_github_local_files_onlyIfSimpleAddMinusInCodeBase_NotForMergeOrConflictsOrHistoryRealtedIssues.txt,
+			);
+			target = DB23BDDF2DAE3DAE008FBA8B /* RefreshX */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		D000B2BA2DB849C900461B44 /* Exceptions for "RefreshX" folder in "Compile Sources" phase from "RefreshX" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = DB23BDDC2DAE3DAE008FBA8B /* Sources */;
+			membershipExceptions = (
+				Other/syncing_github_local_files_onlyIfSimpleAddMinusInCodeBase_NotForMergeOrConflictsOrHistoryRealtedIssues.txt,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DB23BDE22DAE3DAE008FBA8B /* RefreshX */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D000B2B92DB849C900461B44 /* Exceptions for "RefreshX" folder in "RefreshX" target */,
+				D000B2BA2DB849C900461B44 /* Exceptions for "RefreshX" folder in "Compile Sources" phase from "RefreshX" target */,
+			);
 			path = RefreshX;
 			sourceTree = "<group>";
 		};
