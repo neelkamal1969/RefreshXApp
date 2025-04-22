@@ -3,7 +3,7 @@
     <h1 style="color: #2c3e50; font-size: 2.5em; margin-bottom: 10px;">RefreshX</h1>
     <h2 style="color: #7f8c8d; font-weight: 400; margin-top: 0;">Wellness Breaks for Focused Minds</h2>
     <p style="font-size: 1.1em;">A comprehensive wellness companion for desk workers</p>
-    <img src="https://drive.google.com/file/d/1p7IfpfQrn1xq97I4xXIDgfbEMKiJUn4j/view?usp=share_link" alt="RefreshX App Screenshot" style="max-width: 100%; border-radius: 8px; margin: 20px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <img src="https://media-hosting.imagekit.io/bf56fe771bca4d40/appImage.jpg?Expires=1839969264&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=cEi8lv3X4ixsDiBaqUJK16Z3XClILJt9jVleiVHoNmOnj8BADf0xhAIxeZ2CMics3LtC3KziWxaq10u5prJc4qj3Pbh1A4P0wdhOspThU0ohJut2M8e-2T3kBmiU1GS8SIVlCtFajWDBE63C6hpJmmpEMCAYs3-FODYIBMY5XdIRd8ptLviwxRFzYrqcSw5RUWK-FUj4dGIhzVrSNqH48h7XKbVK~j5J5n-zJmU-g5~jMyauHrZGkqMzqowl3QRcwJgCzHPF3L5Ts1tsBljOFwKmkFoDfrLVHMqvUZEs9CtepgWVvyQqSs-ozi8VG5eCcKQ1fFDDcrLV3qMPVaGu~A__" alt="RefreshX App Screenshot" style="max-width: 100%; border-radius: 8px; margin: 20px 0; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
   </div>
 
   <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
