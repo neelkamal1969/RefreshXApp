@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RefreshX - Wellness breaks for focused minds</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-light: #4285f4;
+            --primary-dark: #0d47a1;
+            --secondary: #34a853;
+            --accent: #ea4335;
+            --text-dark: #202124;
+            --text-light: #5f6368;
+            --background: #ffffff;
+            --card-bg: #f8f9fa;
+            --border: #dadce0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--background);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 25px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+        }
+
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            background: linear-gradient(135deg, #f5f9ff 0%, #ecf4ff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(66, 133, 244, 0.1);
+            top: -100px;
+            right: -100px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(66, 133, 244, 0.1);
+            bottom: -50px;
+            left: -50px;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .hero h2 {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--text-light);
+            margin-bottom: 30px;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            margin-left: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h3 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .about-text p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background-color: var(--card-bg);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 45px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-light);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 100px 0;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .steps::before {
+            content: '';
+            position: absolute;
+            top: 85px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--border);
+            z-index: -1;
+        }
+
+        .step {
+            text-align: center;
+            width: 180px;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary);
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .step p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Screenshots Section */
+        .screenshots {
+            padding: 100px 0;
+            background-color: var(--card-bg);
+        }
+
+        .screenshot-slider {
+            margin-top: 50px;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            gap: 20px;
+            padding-bottom: 30px;
+        }
+
+        .screenshot-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .screenshot-slider::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .screenshot-slider::-webkit-scrollbar-track {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .screenshot {
+            scroll-snap-align: start;
+            min-width: 280px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .screenshot:hover {
+            transform: scale(1.03);
+        }
+
+        .screenshot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .video-container h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 100px 0;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 50px auto 0;
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            background-color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .faq-question h3 {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .faq-question i {
+            font-size: 18px;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-answer p {
+            color: var(--text-light);
+            line-height: 1.7;
+            padding-bottom: 20px;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-top: 10px;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 0;
+            background-color: var(--card-bg);
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 50px;
+            margin-top: 50px;
+        }
+
+        .contact-form {
+            flex: 1;
+            background-color: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .contact-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .contact-card p, .contact-card a {
+            font-size: 15px;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .member-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .member-info {
+            padding: 15px;
+        }
+
+        .member-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--primary-dark);
+        }
+
+        .member-info p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-light);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-dark);
+            transform: scale(1.1);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-light);
+            bottom: -8px;
+            left: 0;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.8);
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-bottom p {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 30px;
+            }
+
+            .steps::before {
+                display: none;
+            }
+
+            .step {
+                width: 45%;
+            }
+
+            .contact-container {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: 70px;
+                right: 0;
+                width: 0;
+                height: calc(100vh - 70px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 40px;
+                transition: all 0.3s ease;
+                overflow: hidden;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                width: 70%;
+                box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-links li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .hero-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-text {
+                margin-top: 30px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero h2 {
+                font-size: 20px;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step {
+                width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .screenshot {
+                min-width: 240px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+
+            .hero .btn {
+                display: block;
+                margin: 10px auto;
+                width: 80%;
+            }
+
+            .hero .btn-secondary {
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    <img src="placeholder-logo.png" alt="RefreshX Logo">
+                    <h1>RefreshX</h1>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="hamburger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Wellness breaks for focused minds</h1>
+                    <h2>Schedule mindful breaks during work with guided exercises for eyes, back, and wrists.</h2>
+                    <a href="#" class="btn">Download App</a>
+                    <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+                </div>
+                <div class="hero-image">
+                    <img src="placeholder-app-showcase.png" alt="RefreshX App Showcase">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>About RefreshX</h2>
+                <p>Your wellness companion designed to help desk workers prevent strain and fatigue</p>
+            </div>
+            <div class="about-content fade-in">
+                <div class="about-image">
+                    <img src="placeholder-about.png" alt="About RefreshX">
+                </div>
+                <div class="about-text">
+                    <h3>Why We Created RefreshX</h3>
+                    <p>RefreshX is a wellness companion designed to help desk workers prevent strain and fatigue through regular, mindful breaks. The app addresses the common health issues that come with extended computer use - eye strain, back pain, and wrist discomfort - through a thoughtfully designed break scheduling system.</p>
+                    <p>With RefreshX, you can set your work schedule and the app will automatically plan balanced breaks throughout your day. Each break features guided exercises specifically designed for eye relief, back stretching, or wrist care. You'll receive notifications 5 minutes before each scheduled break, helping you transition smoothly from work to wellness moments.</p>
+                    <a href="#features" class="btn">Explore Features</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Key Features</h2>
+                <p>Discover what makes RefreshX the perfect companion for workplace wellness</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Smart Break Scheduling</h3>
+                    <p>Set your work hours and RefreshX will automatically plan evenly distributed breaks throughout your day, maximizing both wellness and productivity.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Guided Exercises</h3>
+                    <p>Follow expert-designed exercises specifically targeting eye relief, back stretching, and wrist care, all optimized for your work environment.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your wellness journey with streak counting, calorie estimates, and comprehensive activity reports to stay motivated.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3>Wellness Articles</h3>
+                    <p>Learn about workplace wellness through curated articles on ergonomics, stress reduction, and healthy work habits.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Customizable Routines</h3>
+                    <p>Personalize your exercise routine by selecting exercises that address your specific needs and preferences.</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Smart Notifications</h3>
+                    <p>Receive timely reminders 5 minutes before each scheduled break, helping you transition smoothly from work to wellness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>How It Works</h2>
+                <p>RefreshX seamlessly integrates healthy habits into your workday</p>
+            </div>
+            <div class="steps">
+                <div class="step fade-in">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up</h3>
+                    <p>Create your account with email-based OTP authentication - no passwords needed</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">2</div>
+                    <h3>Set Preferences</h3>
+                    <p>Configure your work hours and break preferences to match your schedule</p>
+                </div>
+                <div class="step fade-in">
+                    <div class="step-number">3</div>
+                   <h3>Customize Routine</h3>
+                   <p>Create a personalized exercise routine that addresses your specific needs</p>
+               </div>
+               <div class="step fade-in">
+                   <div class="step-number">4</div>
+                   <h3>Follow Breaks</h3>
+                   <p>Start breaks manually or follow scheduled notifications for guided exercises</p>
+               </div>
+               <div class="step fade-in">
+                   <div class="step-number">5</div>
+                   <h3>Track Progress</h3>
+                   <p>Monitor your wellness journey and explore articles to learn more</p>
+               </div>
+           </div>
+       </div>
+   </section>
+
+   <!-- Screenshots Section -->
+   <section id="screenshots" class="screenshots">
+       <div class="container">
+           <div class="section-header fade-in">
+               <h2>App Showcase</h2>
+               <p>See RefreshX in action with our screenshots and video</p>
+           </div>
+           <div class="screenshot-slider">
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-1.png" alt="Login Screen">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-2.png" alt="Home Screen">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-3.png" alt="Exercise Library">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-4.png" alt="Break Timer">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-5.png" alt="Articles">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-6.png" alt="Profile Settings">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-7.png" alt="Progress Tracking">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-8.png" alt="Exercise Details">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-9.png" alt="Article Reading">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-10.png" alt="Break Scheduling">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-11.png" alt="Break Completion">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-12.png" alt="Progress Calendar">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-13.png" alt="Activity Dashboard">
+               </div>
+               <div class="screenshot">
+                   <img src="placeholder-screenshot-14.png" alt="Health Statistics">
+               </div>
+           </div>
+           <div class="video-container fade-in">
+               <h3>See RefreshX in Action</h3>
+               <div class="video-wrapper">
+                   <iframe src="placeholder-embed-video.mp4" allowfullscreen></iframe>
+               </div>
+           </div>
+       </div>
+   </section>
+
+   <!-- FAQ Section -->
+   <section id="faq" class="faq">
+       <div class="container">
+           <div class="section-header fade-in">
+               <h2>Frequently Asked Questions</h2>
+               <p>Get answers to common questions about RefreshX</p>
+           </div>
+           <div class="faq-list">
+               <div class="faq-item fade-in">
+                   <div class="faq-question">
+                       <h3>Why aren't my scheduled breaks appearing?</h3>
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+                   <div class="faq-answer">
+                       <p>Your break schedule refreshes daily based on your work hours. Pull down to refresh the home screen, and check that your work hours and days are correctly set in your profile. If you've recently changed settings, please restart the app to apply them (though this happens rarely due to network latency).</p>
+                   </div>
+               </div>
+               <div class="faq-item fade-in">
+                   <div class="faq-question">
+                       <h3>Do I need to create an account?</h3>
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+                   <div class="faq-answer">
+                       <p>When you first enter your email, we'll automatically create an account for you with default settings. After signing in, please customize your profile with details like height and weight for accurate calorie tracking and personalized recommendations.</p>
+                   </div>
+               </div>
+               <div class="faq-item fade-in">
+                   <div class="faq-question">
+                       <h3>How does the break scheduler work?</h3>
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+                   <div class="faq-answer">
+                       <p>Our intelligent break scheduler evenly distributes your breaks throughout your workday based on your settings. You'll receive a notification 5 minutes before each scheduled break. The scheduler operates on a 24-hour cycle, so work hours must be within the same day.</p>
+                   </div>
+               </div>
+               <div class="faq-item fade-in">
+                   <div class="faq-question">
+                       <h3>Can I take unscheduled breaks?</h3>
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+                   <div class="faq-answer">
+                       <p>Absolutely! You can start a break anytime by tapping the "Start Break" button on the home screen. All breaks, scheduled or manual, will be tracked in your progress history to help you maintain your wellness streaks.</p>
+                   </div>
+               </div>
+               <div class="faq-item fade-in">
+                   <div class="faq-question">
+                       <h3>Are the exercises and articles medically validated?</h3>
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+                   <div class="faq-answer">
+                       <p>All our content is curated from reputable health resources including WHO guidelines and peer-reviewed wellness journals. Our team of health professionals reviews each exercise and article to ensure accuracy and safety for general workplace wellness.</p>
+                   </div>
+               </div>
+               <div class="faq-item fade-in">
+                   <div class="faq-question">
+                       <h3>What information does RefreshX collect?</h3>
+                       <i class="fas fa-chevron-down"></i>
+                   </div>
+                   <div class="faq-answer">
+                       <p>We only collect essential data to personalize your experience: email for authentication, name/height/weight for calorie calculations, break settings, routine preferences, and progress history. We never share your personal information with third parties.</p>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </section>
+
+   <!-- Contact Section -->
+   <section id="contact" class="contact">
+       <div class="container">
+           <div class="section-header fade-in">
+               <h2>Get In Touch</h2>
+               <p>Have questions or feedback? We'd love to hear from you</p>
+           </div>
+           <div class="contact-container">
+               <div class="contact-form fade-in">
+                   <form id="contactForm">
+                       <div class="form-group">
+                           <label for="name">Your Name</label>
+                           <input type="text" id="name" name="name" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="email">Email Address</label>
+                           <input type="email" id="email" name="email" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="subject">Subject</label>
+                           <input type="text" id="subject" name="subject" required>
+                       </div>
+                       <div class="form-group">
+                           <label for="message">Message</label>
+                           <textarea id="message" name="message" required></textarea>
+                       </div>
+                       <button type="submit" class="btn">Send Message</button>
+                   </form>
+               </div>
+               <div class="contact-info">
+                   <div class="contact-card fade-in">
+                       <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                       <h3>Email Us</h3>
+                       <a href="mailto:heeyyyprince@gmail.com">heeyyyprince@gmail.com</a>
+                   </div>
+                   <div class="contact-card fade-in">
+                       <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                       <h3>University Address</h3>
+                       <p>Chitkara University</p>
+                       <p>Rajpura, Punjab, India</p>
+                       <a href="https://maps.google.com/?q=Chitkara+University+Punjab" target="_blank">Get Directions</a>
+                   </div>
+                   <div class="contact-card fade-in">
+                       <div class="contact-icon"><i class="fas fa-link"></i></div>
+                       <h3>Important Links</h3>
+                       <a href="privacy-policy.html">Privacy Policy</a>
+                       <a href="support.html">Support Center</a>
+                       <a href="https://github.com/neelkamal1969/RefreshXApp" target="_blank">GitHub Repository</a>
+                   </div>
+               </div>
+           </div>
+           
+           <!-- Team Section -->
+           <div class="section-header fade-in" style="margin-top: 80px;">
+               <h2>Our Team</h2>
+               <p>Meet the people behind RefreshX</p>
+           </div>
+           <div class="team-grid">
+               <div class="team-member fade-in">
+                   <img src="placeholder-team-prince.jpg" alt="Prince Kumar" class="member-image">
+                   <div class="member-info">
+                       <h3>Prince Kumar</h3>
+                       <p>Project Lead & UX/UI Lead</p>
+                       <div class="social-links">
+                           <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                           <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                           <a href="mailto:heeyyyprince@gmail.com"><i class="fas fa-envelope"></i></a>
+                       </div>
+                   </div>
+               </div>
+               <div class="team-member fade-in">
+                   <img src="placeholder-team-rishabh.jpg" alt="Rishabh Singh" class="member-image">
+                   <div class="member-info">
+                       <h3>Rishabh Singh</h3>
+                       <p>Backend Development Lead</p>
+                       <div class="social-links">
+                           <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                           <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                           <a href="#"><i class="fas fa-envelope"></i></a>
+                       </div>
+                   </div>
+               </div>
+               <div class="team-member fade-in">
+                   <img src="placeholder-team-kinshuk.jpg" alt="Kinshuk" class="member-image">
+                   <div class="member-info">
+                       <h3>Kinshuk</h3>
+                       <p>UI/UX Support & Documentation</p>
+                       <div class="social-links">
+                           <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                           <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                           <a href="#"><i class="fas fa-envelope"></i></a>
+                       </div>
+                   </div>
+               </div>
+               <div class="team-member fade-in">
+                   <img src="placeholder-team-neelkamal.jpg" alt="Neelkamal" class="member-image">
+                   <div class="member-info">
+                       <h3>Neelkamal</h3>
+                       <p>Testing, R&D & Support Lead</p>
+                       <div class="social-links">
+                           <a href="https://github.com/neelkamal1969" target="_blank"><i class="fab fa-github"></i></a>
+                           <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                           <a href="#"><i class="fas fa-envelope"></i></a>
+                       </div>
+                   </div>
+               </div>
+               <div class="team-member fade-in">
+                   <img src="placeholder-chitkara.jpg" alt="Chitkara University" class="member-image">
+                   <div class="member-info">
+                       <h3>Chitkara University</h3>
+                       <p>Institutional Support</p>
+                       <div class="social-links">
+                           <a href="https://www.chitkara.edu.in/" target="_blank"><i class="fas fa-globe"></i></a>
+                           <a href="https://maps.google.com/?q=Chitkara+University+Punjab" target="_blank"><i class="fas fa-map-marker-alt"></i></a>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </section>
+
+   <!-- Footer -->
+   <footer>
+       <div class="container">
+           <div class="footer-content">
+               <div class="footer-column">
+                   <h3>RefreshX</h3>
+                   <ul>
+                       <li><a href="#about">About Us</a></li>
+                       <li><a href="#features">Features</a></li>
+                       <li><a href="#how-it-works">How It Works</a></li>
+                       <li><a href="#faq">FAQs</a></li>
+                       <li><a href="#contact">Contact</a></li>
+                   </ul>
+               </div>
+               <div class="footer-column">
+                   <h3>Resources</h3>
+                   <ul>
+                       <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                       <li><a href="support.html">Support Center</a></li>
+                       <li><a href="documentation.html">Documentation</a></li>
+                       <li><a href="#">Terms of Service</a></li>
+                   </ul>
+               </div>
+               <div class="footer-column">
+                   <h3>Follow Us</h3>
+                   <ul>
+                       <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                       <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                       <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                       <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                   </ul>
+               </div>
+               <div class="footer-column">
+                   <h3>Medical Disclaimer</h3>
+                   <p style="color: rgba(255,255,255,0.7); font-size: 14px; line-height: 1.6;">The content within RefreshX is not intended to replace professional medical advice. Using the app is at your own discretion and risk. Please consult healthcare providers for specific health concerns.</p>
+               </div>
+           </div>
+           <div class="footer-bottom">
+               <p>&copy; 2025 RefreshX. All Rights Reserved.</p>
+           </div>
+       </div>
+   </footer>
+
+   <!-- JavaScript -->
+   <script>
+       // Mobile Navigation Toggle
+       const hamburger = document.querySelector('.hamburger');
+       const navLinks = document.querySelector('.nav-links');
+
+       hamburger.addEventListener('click', () => {
+           hamburger.classList.toggle('active');
+           navLinks.classList.toggle('active');
+       });
+
+       // Smooth Scrolling
+       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+           anchor.addEventListener('click', function (e) {
+               e.preventDefault();
+               
+               hamburger.classList.remove('active');
+               navLinks.classList.remove('active');
+
+               document.querySelector(this.getAttribute('href')).scrollIntoView({
+                   behavior: 'smooth'
+               });
+           });
+       });
+
+       // FAQ Toggle
+       const faqItems = document.querySelectorAll('.faq-item');
+       
+       faqItems.forEach(item => {
+           const question = item.querySelector('.faq-question');
+           
+           question.addEventListener('click', () => {
+               item.classList.toggle('active');
+           });
+       });
+
+       // Fade-in Animation on Scroll
+       const fadeElements = document.querySelectorAll('.fade-in');
+       
+       const fadeInOnScroll = () => {
+           fadeElements.forEach(element => {
+               const elementTop = element.getBoundingClientRect().top;
+               const windowHeight = window.innerHeight;
+               
+               if (elementTop < windowHeight - 100) {
+                   element.classList.add('active');
+               }
+           });
+       };
+       
+       window.addEventListener('scroll', fadeInOnScroll);
+       window.addEventListener('load', fadeInOnScroll);
+
+       // Contact Form Submission
+       const contactForm = document.getElementById('contactForm');
+       
+       contactForm.addEventListener('submit', function(e) {
+           e.preventDefault();
+           
+           const name = document.getElementById('name').value;
+           const email = document.getElementById('email').value;
+           const subject = document.getElementById('subject').value;
+           const message = document.getElementById('message').value;
+           
+           // Email sending functionality
+           // In a real implementation, you would use a service like EmailJS, Formspree, or your own backend
+           // For now, we'll just log the details and show an alert
+           
+           console.log({name, email, subject, message});
+           
+           // Create a mailto link (as a simple solution)
+           const mailtoLink = `mailto:heeyyyprince@gmail.com?subject=RefreshX Contact: ${encodeURIComponent(subject)}&body=${encodeURIComponent(`From: ${name} (${email})\n\n${message}`)}`;
+           
+           // Open the mail client
+           window.location.href = mailtoLink;
+           
+           // Show success message
+           alert('Thank you for your message! Redirecting to your email client to send the message.');
+           
+           // Reset form
+           contactForm.reset();
+       });
+   </script>
+</body>
+</html>
