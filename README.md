@@ -217,3 +217,12 @@
     <p style="font-size: 1.1em; margin-bottom: 0;">Your wellness companion for a healthier workday</p>
   </div>
 </div>
+
+
+
+
+
+RefreshX
+A comprehensive wellness companion for desk workers.
+View the full documentation here: RefreshX Documentation
+For more details, check out the docs/index.html file in this repository.
