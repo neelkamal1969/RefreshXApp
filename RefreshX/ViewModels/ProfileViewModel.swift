@@ -5,13 +5,10 @@ import UserNotifications
 
 @MainActor
 class ProfileViewModel: ObservableObject {
-    // User properties
     @Published var name: String = ""
     @Published var height: String = ""
     @Published var weight: String = ""
     @Published var bio: String = ""
-    
-    // Break settings
     @Published var selectedWeekdays: Set<String> = []
     @Published var jobStartDate: Date = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
     @Published var jobEndDate: Date = Calendar.current.date(from: DateComponents(hour: 17, minute: 0)) ?? Date()
@@ -19,35 +16,31 @@ class ProfileViewModel: ObservableObject {
     @Published var jobEnd: String = "17:00"
     @Published var numBreaks: Int = 5
     @Published var breakDuration: Int = 20
-    
-    // UI state
+    @Published var todayBreakTimes: [Date] = []
+    @Published var isWorkday: Bool = false
     @Published var isEditing: Bool = false
     @Published var isSaving: Bool = false
     @Published var errorMessage: String? = nil
     @Published var showError: Bool = false
     @Published var nextBreakTime: String = "Calculating..."
+    @Published var bmi: Double? = nil
+    @Published var bmiCategory: BMICalculator.BMICategory? = nil
     
-    // All available weekdays
     let allWeekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-    
-    // Reference to AuthViewModel
     private var authViewModel: AuthViewModel
     
-    // Date formatter for UI and saving (HH:mm)
     private let timeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm"
         return formatter
     }()
     
-    // Date formatter for Supabase input (HH:mm:ss)
     private let supabaseTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
         return formatter
     }()
     
-    // Date formatter for display
     private let displayFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
@@ -56,50 +49,46 @@ class ProfileViewModel: ObservableObject {
     
     init(authViewModel: AuthViewModel) {
         self.authViewModel = authViewModel
-        
-        // Load user data if available
         if let user = authViewModel.user {
             loadUserData(user)
+            calculateBMI()
+            calculateTodayBreakTimes(for: user)
             nextBreakTime = calculateAndGetNextBreakTime()
         }
     }
     
-    // Update the AuthViewModel reference
     func updateAuthViewModel(_ authViewModel: AuthViewModel) {
         self.authViewModel = authViewModel
-        
         if let user = authViewModel.user {
             loadUserData(user)
+            calculateBMI()
+            calculateTodayBreakTimes(for: user)
             nextBreakTime = calculateAndGetNextBreakTime()
         }
     }
     
-    // Load data from User model
     func loadUserData(_ user: User) {
         name = user.name
         height = user.height != nil ? String(format: "%.1f", user.height!) : ""
         weight = user.weight != nil ? String(format: "%.1f", user.weight!) : ""
         bio = user.bio ?? ""
-        
         selectedWeekdays = Set(user.weekdays)
         jobStart = user.jobStart
         jobEnd = user.jobEnd
         
-        // Convert string times to Date objects, handling HH:mm:ss and HH:mm
         var startDate: Date?
         var endDate: Date?
         
-        // Try HH:mm:ss first (Supabase format)
         if let date = supabaseTimeFormatter.date(from: user.jobStart) {
             startDate = date
-            jobStart = timeFormatter.string(from: date) // Convert to HH:mm for UI
+            jobStart = timeFormatter.string(from: date)
         } else if let date = timeFormatter.date(from: user.jobStart) {
             startDate = date
         }
         
         if let date = supabaseTimeFormatter.date(from: user.jobEnd) {
             endDate = date
-            jobEnd = timeFormatter.string(from: date) // Convert to HH:mm for UI
+            jobEnd = timeFormatter.string(from: date)
         } else if let date = timeFormatter.date(from: user.jobEnd) {
             endDate = date
         }
@@ -107,7 +96,6 @@ class ProfileViewModel: ObservableObject {
         if let start = startDate {
             jobStartDate = start
         } else {
-            print("Failed to parse jobStart: \(user.jobStart)")
             jobStartDate = Calendar.current.date(from: DateComponents(hour: 9, minute: 0)) ?? Date()
             jobStart = "09:00"
         }
@@ -115,19 +103,29 @@ class ProfileViewModel: ObservableObject {
         if let end = endDate {
             jobEndDate = end
         } else {
-            print("Failed to parse jobEnd: \(user.jobEnd)")
             jobEndDate = Calendar.current.date(from: DateComponents(hour: 17, minute: 0)) ?? Date()
             jobEnd = "17:00"
         }
         
         numBreaks = user.numBreaks
         breakDuration = user.breakDuration
-        
-        // Calculate next break time
         nextBreakTime = calculateAndGetNextBreakTime()
     }
     
-    // Save user data
+    func calculateBMI() {
+        guard let heightValue = Double(height.trimmingCharacters(in: .whitespaces)),
+              let weightValue = Double(weight.trimmingCharacters(in: .whitespaces)),
+              heightValue > 0, weightValue > 0 else {
+            bmi = nil
+            bmiCategory = nil
+            return
+        }
+        
+        let calculatedBMI = BMICalculator.calculateBMI(height: heightValue, weight: weightValue)
+        bmi = calculatedBMI
+        bmiCategory = BMICalculator.getCategory(bmi: calculatedBMI)
+    }
+    
     func saveUserData() async {
         guard let userId = authViewModel.userId else {
             errorMessage = "No user ID available"
@@ -137,19 +135,13 @@ class ProfileViewModel: ObservableObject {
         }
         
         isSaving = true
-        
-        // Convert Date objects to string times (HH:mm for consistency)
         jobStart = timeFormatter.string(from: jobStartDate)
         jobEnd = timeFormatter.string(from: jobEndDate)
         
-        // Convert string values to appropriate types
         let heightDouble = Double(height.trimmingCharacters(in: .whitespaces))
         let weightDouble = Double(weight.trimmingCharacters(in: .whitespaces))
-        
-        // Create weekdays array from selection
         let weekdays = Array(selectedWeekdays).sorted { allWeekdays.firstIndex(of: $0)! < allWeekdays.firstIndex(of: $1)! }
         
-        // Create updated user object
         let updatedUser = User(
             id: userId,
             name: name.isEmpty ? "User" : name,
@@ -165,16 +157,12 @@ class ProfileViewModel: ObservableObject {
         )
         
         do {
-            // Update user in Supabase
             try await authViewModel.supabase.database
                 .from("users")
                 .update(updatedUser)
                 .eq("id", value: userId.uuidString)
                 .execute()
             
-            print("User updated successfully with jobStart: \(updatedUser.jobStart), jobEnd: \(updatedUser.jobEnd)")
-            
-            // Reload user data to ensure consistency
             let users: [User] = try await authViewModel.supabase.database
                 .from("users")
                 .select()
@@ -185,64 +173,63 @@ class ProfileViewModel: ObservableObject {
             if let fetchedUser = users.first {
                 authViewModel.user = fetchedUser
                 loadUserData(fetchedUser)
-                print("Reloaded user: jobStart: \(fetchedUser.jobStart), jobEnd: \(fetchedUser.jobEnd)")
+                calculateBMI()
+                calculateTodayBreakTimes(for: fetchedUser)
+                await scheduleBreakNotifications()
+                nextBreakTime = calculateAndGetNextBreakTime()
             } else {
                 throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch updated user"])
             }
             
-            // Schedule notifications based on updated settings
-            await scheduleBreakNotifications()
-            
-            // Update next break time
-            nextBreakTime = calculateAndGetNextBreakTime()
-            
             isEditing = false
         } catch {
-            errorMessage = "Failed to update profile: \(error.localizedDescription)"
+            errorMessage = "Failed to update profile"
             showError = true
-            print("Error updating user: \(error.localizedDescription)")
         }
         
         isSaving = false
     }
     
-    // Calculate and schedule break notifications
     func scheduleBreakNotifications() async {
         guard let user = authViewModel.user else { return }
-        
-        // Delegate scheduling to NotificationManager
         await NotificationManager.shared.scheduleBreakNotifications(for: user)
     }
     
-    // Calculate next break time and return as formatted string
+    func calculateTodayBreakTimes(for user: User) {
+        let calendar = Calendar.current
+        let today = calendar.component(.weekday, from: Date())
+        let weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        let todayName = weekdayNames[today - 1]
+        
+        isWorkday = user.weekdays.contains(todayName)
+        todayBreakTimes = isWorkday ? NotificationManager.shared.calculateBreakTimes(for: user) : []
+    }
+    
     func calculateAndGetNextBreakTime() -> String {
         guard let user = authViewModel.user else {
             return "No user data available"
         }
         
-        // Get today's date components
         let calendar = Calendar.current
         let today = calendar.component(.weekday, from: Date())
         let weekdayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-        let todayName = weekdayNames[today - 1] // Adjust for 1-based weekday in Calendar
+        let todayName = weekdayNames[today - 1]
         
-        // Check if today is a work day
         if !user.weekdays.contains(todayName) {
             return "No breaks scheduled today"
         }
         
-        // Use NotificationManager to calculate break times
         let breakTimes = NotificationManager.shared.calculateBreakTimes(for: user)
         let now = Date()
         
-        // Debug: Log break times
-        print("Calculated break times: \(breakTimes.map { displayFormatter.string(from: $0) })")
-        
-        // Find the next break that hasn't passed yet
         if let nextBreak = breakTimes.first(where: { $0 > now }) {
             return displayFormatter.string(from: nextBreak)
         }
         
         return "No more breaks today"
+    }
+    
+    func formatTime(_ date: Date) -> String {
+        return displayFormatter.string(from: date)
     }
 }

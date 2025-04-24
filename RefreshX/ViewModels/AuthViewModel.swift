@@ -22,6 +22,7 @@ class AuthViewModel: ObservableObject {
     @Published var isOTPMode = false
     @Published var isLoading = false
     
+    // Use the global supabase instance instead of creating a new one
     let supabase = SupabaseClient(
         supabaseURL: URL(string: "https://ilnpsjaucxmgixhxevah.supabase.co")!,
         supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsbnBzamF1Y3htZ2l4aHhldmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ3MDA5NTEsImV4cCI6MjA2MDI3Njk1MX0.7B0cIhqMTXil_2el3paP9YNgRUW5e_Ik0oRVBeMTM2E"
@@ -142,12 +143,14 @@ class AuthViewModel: ObservableObject {
                     .select()
                     .execute()
                     .value
-                print("All exercises fetched: \(allExercises.map { $0.name ?? "nil" })")
+                print("All exercises fetched: \(allExercises.count)")
                 
                 // Filter default exercises client-side
                 let defaultExerciseNames = ["20-20-20 Rule", "Seated Twist", "Wrist Flexor"]
-                let defaultExercises = allExercises.filter { defaultExerciseNames.contains($0.name ?? "") }
-                print("Filtered default exercises: \(defaultExercises.map { $0.name ?? "nil" })")
+                let defaultExercises = allExercises.filter { exercise in
+                    defaultExerciseNames.contains(exercise.name)
+                }
+                print("Filtered default exercises: \(defaultExercises.count)")
                 
                 // Add default exercises to routines
                 for exercise in defaultExercises {
@@ -161,9 +164,9 @@ class AuthViewModel: ObservableObject {
                             .from("routines")
                             .insert(routine)
                             .execute()
-                        print("Routine inserted for exercise: \(exercise.name ?? "nil"), user: \(userId.uuidString)")
+                        print("Routine inserted for exercise: \(exercise.name), user: \(userId.uuidString)")
                     } catch {
-                        print("Failed to insert routine for \(exercise.name ?? "nil"): \(error.localizedDescription)")
+                        print("Failed to insert routine for \(exercise.name): \(error.localizedDescription)")
                     }
                 }
                 
@@ -198,6 +201,10 @@ class AuthViewModel: ObservableObject {
         }
         do {
             try await supabase.auth.signOut()
+            
+            // Clear all notifications when signing out
+            NotificationManager.shared.clearAllNotifications()
+            
             await MainActor.run {
                 self.isLoggedIn = false
                 self.userId = nil
@@ -241,6 +248,10 @@ class AuthViewModel: ObservableObject {
                     userInfo: [NSLocalizedDescriptionKey: response.error ?? "Deletion failed"]
                 )
             }
+            
+            // Clear all notifications when deleting account
+            NotificationManager.shared.clearAllNotifications()
+            
             try await supabase.auth.signOut()
             await MainActor.run {
                 self.isLoggedIn = false
