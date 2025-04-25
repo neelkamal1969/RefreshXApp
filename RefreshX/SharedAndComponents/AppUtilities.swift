@@ -58,45 +58,6 @@ class BMICalculator {
         }
     }
 }
-
-class ReadAloudManager: NSObject, ObservableObject, AVSpeechSynthesizerDelegate {
-    static let shared = ReadAloudManager()
-    
-    @Published var isPlaying = false
-    private let synthesizer = AVSpeechSynthesizer()
-    
-    private override init() {
-        super.init()
-        synthesizer.delegate = self
-    }
-    
-    func speak(text: String) {
-        if synthesizer.isSpeaking {
-            synthesizer.stopSpeaking(at: .immediate)
-        }
-        
-        let utterance = AVSpeechUtterance(string: text)
-        utterance.rate = AVSpeechUtteranceDefaultSpeechRate
-        utterance.pitchMultiplier = 1.0
-        utterance.volume = 1.0
-        utterance.voice = AVSpeechSynthesisVoice(language: "en-US")
-        
-        isPlaying = true
-        synthesizer.speak(utterance)
-    }
-    
-    func stop() {
-        if synthesizer.isSpeaking {
-            synthesizer.stopSpeaking(at: .immediate)
-            isPlaying = false
-        }
-    }
-    
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        isPlaying = false
-    }
-}
-
 struct InfoButton: View {
     let title: String
     let message: String

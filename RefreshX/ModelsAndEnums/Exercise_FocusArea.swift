@@ -38,3 +38,12 @@ struct Exercise: Identifiable, Codable {
         case metScore = "met_score"
     }
 }
+
+// FocusArea.swift
+import Foundation
+
+enum FocusArea: String, Codable, CaseIterable {
+    case eye = "eye"
+    case back = "back"
+    case wrist = "wrist"
+}

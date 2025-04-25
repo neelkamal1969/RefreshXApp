@@ -1,1 +1,15 @@
 
+nice I am happy with e erything ..lets move on to correcting  articles flow ..it also needs similar ui/ux and memeory management changes, it also is exceptionally slow..wait for my codes in next promos ok..?just remebre the type of ui ux and memory and other changes which u did in above exercises library flow ok..
+
+
+
+
+
+
+u see now something bizzare is happening:
+
+right flow:if i add/remove sme exercise (eg . EX1) from anywhere in the app i.e exercise picker/exercise detail view/exercise library flow or anywhere..the respective changes should perfectly reflect in every othr concerning view and backend i.e. exercise picker/exercise detail view/exercise library
+
+currently this is happening after implementing your file manager / caching or whatever approach:if i add some exercise to routine from exercise picker..its status is not getting reflected in exercise detail view/exercise library flow,it is possible to add same exercise multiple times in routine which is wrong and messes with code logic and backend,similary i can also remove a non routine exercise which is absurd..so u see what currenly happening is that status of exercise that wheher it is in routine or not is not being passed and uopdated properly in concerned views...
+
+although when i uninstall and reinstal the app the above wrong behaviour does not happen,but in real life a user will not do that,so please rectify it and give me the whole complete code without messing with rest of the backend and logic ,also u can ask for other codes for a bigger clarity if u find it problamtic with only the current code,its not wrong to ask rest of the concerning codes,proper flawless code working is what matters most
